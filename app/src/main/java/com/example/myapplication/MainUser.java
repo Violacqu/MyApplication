@@ -40,7 +40,9 @@ public class MainUser extends Activity {
     }
 
     public void help(View view){
-        Toast.makeText(MainUser.this,"You can use the feedback to ask for help.\n Thank you.",Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainUser.this,"You can read the readme.md on my github.\n Thank you.",Toast.LENGTH_SHORT).show();
+
+
     }
     public void setting(View view){
         Intent intent = new Intent();

@@ -142,5 +142,6 @@ public class AddPage1 extends Activity implements View.OnClickListener{
         myAccount.setPrice(inputPrice.getText().toString());
         myAccount.save();
         Toast.makeText(AddPage1.this, "Price "+inputPrice.getText().toString()+" has been recorded!", Toast.LENGTH_SHORT).show();
+        inputPrice.setText("");
     }
 }
