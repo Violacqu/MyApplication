@@ -173,7 +173,7 @@
         android:background="#FFFFFF"
         android:gravity="center_vertical|left"
         android:textColor="@color/colorbtntext"
-
+        android:onClick="setting"
         android:text="                       Setting"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
