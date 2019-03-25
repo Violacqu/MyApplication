@@ -101,22 +101,26 @@ public class MainPage1 extends Activity {
         Intent intent = new Intent();
         intent.setClass(MainPage1.this,AddPage1.class);
         startActivity(intent);
+        MainPage1.this.finish();
     }
 
     public void showchart(View view){
         Intent intent = new Intent();
         intent.setClass(MainPage1.this,MainChart.class);
         startActivity(intent);
+        MainPage1.this.finish();
     }
     public void showuser(View view){
         Intent intent = new Intent();
         intent.setClass(MainPage1.this,MainUser.class);
         startActivity(intent);
+        MainPage1.this.finish();
     }
     public void showaccount(View view){
         Intent intent = new Intent();
         intent.setClass(MainPage1.this,MainPage1.class);
         startActivity(intent);
+        MainPage1.this.finish();
     }
 
 

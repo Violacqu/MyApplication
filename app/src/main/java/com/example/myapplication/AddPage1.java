@@ -36,27 +36,32 @@ public class AddPage1 extends Activity implements View.OnClickListener{
         Intent intent = new Intent();
         intent.setClass(AddPage1.this,AddPage1.class);
         startActivity(intent);
+        AddPage1.this.finish();
     }
 
     public void showaddpage2(View view){
         Intent intent = new Intent();
         intent.setClass(AddPage1.this,AddPage2.class);
         startActivity(intent);
+        AddPage1.this.finish();
     }
     public void showchart(View view){
         Intent intent = new Intent();
         intent.setClass(AddPage1.this,MainChart.class);
         startActivity(intent);
+        AddPage1.this.finish();
     }
     public void showuser(View view){
         Intent intent = new Intent();
         intent.setClass(AddPage1.this,MainUser.class);
         startActivity(intent);
+        AddPage1.this.finish();
     }
     public void showaccount(View view){
         Intent intent = new Intent();
         intent.setClass(AddPage1.this,MainPage1.class);
         startActivity(intent);
+        AddPage1.this.finish();
     }
 
 
