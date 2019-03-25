@@ -110,6 +110,7 @@
 
     <EditText
         android:id="@+id/edit_addaccount2"
+        android:maxLength="10"
         android:layout_width="208dp"
         android:layout_height="61dp"
         android:layout_marginStart="8dp"
