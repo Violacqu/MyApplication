@@ -543,7 +543,7 @@ public class MainChart extends Activity {
                                     .getCurrentSeriesAndPoint();// 获取当前的类别和指针
                             if (seriesSelection == null) {
                                 Toast.makeText(getApplicationContext(),
-                                        "您未选择数据", Toast.LENGTH_SHORT).show();
+                                        "You are not clicking on any  part", Toast.LENGTH_SHORT).show();
                             } else {
 
 
