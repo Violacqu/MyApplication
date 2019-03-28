@@ -492,7 +492,7 @@ public class MainChart extends Activity {
                             }
                             break;
                         case 10:
-                            if (transport > 0)
+                            if (others > 0)
                             {
                                 mSeries.add("others",others/VALUE);
                                 SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
