@@ -23,6 +23,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +46,8 @@ public class MainChart extends Activity {
     private static float transport;
     private static float others;
     private static float clothing;
+
+
 
     private static int[] COLORS = new int[] { Color.rgb(241,204,184), Color.rgb(60,179,113),
             Color.rgb(197,240,236), Color.rgb(160,95,113), Color.rgb(211,187,238), Color.rgb(240,157,129), Color.rgb(251,229,102) ,Color.rgb(214,129,98),Color.rgb(196,239,207),Color.rgb(207,106,63),Color.rgb(173,183,211),Color.rgb(189,210,151)};
@@ -336,129 +339,271 @@ public class MainChart extends Activity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
+            final TextView txt = findViewById(R.id.edit_txt);
 
             double data[] = new double[] { food, shopping ,pets ,commodity ,traveling ,medical ,study , entertainment, housing,
                     transport ,others ,clothing};
+            if(food+shopping+pets+commodity+traveling+medical+study+entertainment+housing+transport+others+clothing > 0){
 
-            for (int i = 0; i < data.length; i++)
-                VALUE += data[i];
-            for (int i = 0; i < data.length; i++){
-                switch (i){
-                    case 0:
-                        mSeries.add("food",food/VALUE);
-                        break;
-                    case 1:
-                        mSeries.add("shopping",shopping/VALUE);
-                        break;
-                    case 2:
-                        mSeries.add("pets",pets/VALUE);
-                        break;
-                    case 3:
-                        mSeries.add("commodity",commodity/VALUE);
-                        break;
-                    case 4:
-                        mSeries.add("traveling",traveling/VALUE);
-                        break;
-                    case 5:
-                        mSeries.add("medical",medical/VALUE);
-                        break;
-                    case 6:
-                        mSeries.add("study",study/VALUE);
-                        break;
-                    case 7:
-                        mSeries.add("entertainment",entertainment/VALUE);
-                        break;
-                    case 8:
-                        mSeries.add("housing",housing/VALUE);
-                        break;
-                    case 9:
-                        mSeries.add("transport",transport/VALUE);
-                        break;
-                    case 10:
-                        mSeries.add("others",others/VALUE);
-                        break;
-                    case 11:
-                        mSeries.add("clothing",clothing/VALUE);
-                        break;
-                }
-                SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
-                if (i < COLORS.length) {
-                    renderer.setColor(COLORS[i]);// 设置描绘器的颜色
-                } else {
-                    renderer.setColor(getRandomColor());// 设置描绘器的颜色
-                }
-                renderer.setChartValuesFormat(NumberFormat.getPercentInstance());// 设置百分比
-                mRenderer.setChartTitleTextSize(44);// 设置饼图标题大小
-                mRenderer.addSeriesRenderer(renderer);// 将最新的描绘器添加到DefaultRenderer中
-            }
-            if (mChartView == null) {// 为空需要从ChartFactory获取PieChartView
-                mChartView = ChartFactory.getPieChartView(getApplicationContext(),
-                        mSeries, mRenderer);// 构建mChartView
-                mRenderer.setClickEnabled(true);// 允许点击事件
-                mChartView.setOnClickListener(new View.OnClickListener() {// 具体内容
-                    @Override
-                    public void onClick(View v) {
-                        SeriesSelection seriesSelection = mChartView
-                                .getCurrentSeriesAndPoint();// 获取当前的类别和指针
-                        if (seriesSelection == null) {
-                            Toast.makeText(getApplicationContext(),
-                                    "您未选择数据", Toast.LENGTH_SHORT).show();
-                        } else {
-
-
-                            for (int i = 0; i < mSeries.getItemCount(); i++) {
-                                mRenderer.getSeriesRendererAt(i).setHighlighted(i == seriesSelection.getPointIndex());
+                for (int i = 0; i < data.length; i++)
+                    VALUE += data[i];
+                for (int i = 0; i < data.length; i++){
+                    switch (i){
+                        case 0:
+                            if (food>0)
+                            {
+                                mSeries.add("food",food/VALUE);
+                                SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
+                                if (i < COLORS.length) {
+                                    renderer.setColor(COLORS[i]);// 设置描绘器的颜色
+                                } else {
+                                    renderer.setColor(getRandomColor());// 设置描绘器的颜色
+                                }
+                                renderer.setChartValuesFormat(NumberFormat.getPercentInstance());// 设置百分比
+                                mRenderer.setChartTitleTextSize(44);// 设置饼图标题大小
+                                mRenderer.addSeriesRenderer(renderer);// 将最新的描绘器添加到DefaultRenderer中
                             }
-                            mChartView.repaint();
-
-                            switch (seriesSelection.getPointIndex()){
-                                case 0:
-                                    Toast.makeText(getApplicationContext(), "Your chosen is food \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
-                                    break;
-                                case 1:
-                                    Toast.makeText(getApplicationContext(), "Your chosen is shopping \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
-                                    break;
-                                case 2:
-                                    Toast.makeText(getApplicationContext(), "Your chosen is pets \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
-                                    break;
-                                case 3:
-                                    Toast.makeText(getApplicationContext(), "Your chosen is commodity \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
-                                    break;
-                                case 4:
-                                    Toast.makeText(getApplicationContext(), "Your chosen is traveling \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
-                                    break;
-                                case 5:
-                                    Toast.makeText(getApplicationContext(), "Your chosen is medical \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
-                                    break;
-                                case 6:
-                                    Toast.makeText(getApplicationContext(), "Your chosen is study \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
-                                    break;
-                                case 7:
-                                    Toast.makeText(getApplicationContext(), "Your chosen is entertainment \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
-                                    break;
-                                case 8:
-                                    Toast.makeText(getApplicationContext(), "Your chosen is housing \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
-                                    break;
-                                case 9:
-                                    Toast.makeText(getApplicationContext(), "Your chosen is transport \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
-                                    break;
-                                case 10:
-                                    Toast.makeText(getApplicationContext(), "Your chosen is others \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
-                                    break;
-                                case 11:
-                                    Toast.makeText(getApplicationContext(), "Your chosen is clothing \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
-                                    break;
-
+                            break;
+                        case 1:
+                            if (shopping>0){
+                                mSeries.add("shopping",shopping/VALUE);
+                                SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
+                                if (i < COLORS.length) {
+                                    renderer.setColor(COLORS[i]);// 设置描绘器的颜色
+                                } else {
+                                    renderer.setColor(getRandomColor());// 设置描绘器的颜色
+                                }
+                                renderer.setChartValuesFormat(NumberFormat.getPercentInstance());// 设置百分比
+                                mRenderer.setChartTitleTextSize(44);// 设置饼图标题大小
+                                mRenderer.addSeriesRenderer(renderer);// 将最新的描绘器添加到DefaultRenderer中
                             }
-                            //Toast.makeText(getApplicationContext(), "Your chosen is" + (seriesSelection.getPointIndex() + 1) + " 项 \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
-                        }
+                            break;
+                        case 2:
+                            if(pets>0){
+                                mSeries.add("pets",pets/VALUE);
+                                SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
+                                if (i < COLORS.length) {
+                                    renderer.setColor(COLORS[i]);// 设置描绘器的颜色
+                                } else {
+                                    renderer.setColor(getRandomColor());// 设置描绘器的颜色
+                                }
+                                renderer.setChartValuesFormat(NumberFormat.getPercentInstance());// 设置百分比
+                                mRenderer.setChartTitleTextSize(44);// 设置饼图标题大小
+                                mRenderer.addSeriesRenderer(renderer);// 将最新的描绘器添加到DefaultRenderer中
+                            }
+                            break;
+                        case 3:
+                            if (commodity>0){
+                                mSeries.add("commodity",commodity/VALUE);
+                                SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
+                                if (i < COLORS.length) {
+                                    renderer.setColor(COLORS[i]);// 设置描绘器的颜色
+                                } else {
+                                    renderer.setColor(getRandomColor());// 设置描绘器的颜色
+                                }
+                                renderer.setChartValuesFormat(NumberFormat.getPercentInstance());// 设置百分比
+                                mRenderer.setChartTitleTextSize(44);// 设置饼图标题大小
+                                mRenderer.addSeriesRenderer(renderer);// 将最新的描绘器添加到DefaultRenderer中
+                            }
+                            break;
+                        case 4:
+                            if (traveling > 0){
+                                mSeries.add("traveling",traveling/VALUE);
+                                SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
+                                if (i < COLORS.length) {
+                                    renderer.setColor(COLORS[i]);// 设置描绘器的颜色
+                                } else {
+                                    renderer.setColor(getRandomColor());// 设置描绘器的颜色
+                                }
+                                renderer.setChartValuesFormat(NumberFormat.getPercentInstance());// 设置百分比
+                                mRenderer.setChartTitleTextSize(44);// 设置饼图标题大小
+                                mRenderer.addSeriesRenderer(renderer);// 将最新的描绘器添加到DefaultRenderer中
+                            }
+                            break;
+                        case 5:
+                            if (medical >0){
+                                mSeries.add("medical",medical/VALUE);
+                                SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
+                                if (i < COLORS.length) {
+                                    renderer.setColor(COLORS[i]);// 设置描绘器的颜色
+                                } else {
+                                    renderer.setColor(getRandomColor());// 设置描绘器的颜色
+                                }
+                                renderer.setChartValuesFormat(NumberFormat.getPercentInstance());// 设置百分比
+                                mRenderer.setChartTitleTextSize(44);// 设置饼图标题大小
+                                mRenderer.addSeriesRenderer(renderer);// 将最新的描绘器添加到DefaultRenderer中
+                            }
+                            break;
+                        case 6:
+                            if (study>0){
+                                mSeries.add("study",study/VALUE);
+                                SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
+                                if (i < COLORS.length) {
+                                    renderer.setColor(COLORS[i]);// 设置描绘器的颜色
+                                } else {
+                                    renderer.setColor(getRandomColor());// 设置描绘器的颜色
+                                }
+                                renderer.setChartValuesFormat(NumberFormat.getPercentInstance());// 设置百分比
+                                mRenderer.setChartTitleTextSize(44);// 设置饼图标题大小
+                                mRenderer.addSeriesRenderer(renderer);// 将最新的描绘器添加到DefaultRenderer中
+                            }
+                            break;
+                        case 7:
+                            if(entertainment >0){
+                                mSeries.add("entertainment",entertainment/VALUE);
+                                SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
+                                if (i < COLORS.length) {
+                                    renderer.setColor(COLORS[i]);// 设置描绘器的颜色
+                                } else {
+                                    renderer.setColor(getRandomColor());// 设置描绘器的颜色
+                                }
+                                renderer.setChartValuesFormat(NumberFormat.getPercentInstance());// 设置百分比
+                                mRenderer.setChartTitleTextSize(44);// 设置饼图标题大小
+                                mRenderer.addSeriesRenderer(renderer);// 将最新的描绘器添加到DefaultRenderer中
+                            }
+                            break;
+                        case 8:
+                            if (housing > 0){
+                                mSeries.add("housing",housing/VALUE);
+                                SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
+                                if (i < COLORS.length) {
+                                    renderer.setColor(COLORS[i]);// 设置描绘器的颜色
+                                } else {
+                                    renderer.setColor(getRandomColor());// 设置描绘器的颜色
+                                }
+                                renderer.setChartValuesFormat(NumberFormat.getPercentInstance());// 设置百分比
+                                mRenderer.setChartTitleTextSize(44);// 设置饼图标题大小
+                                mRenderer.addSeriesRenderer(renderer);// 将最新的描绘器添加到DefaultRenderer中
+                            }
+                            break;
+                        case 9:
+                            if (transport > 0)
+                            {
+                                mSeries.add("transport",transport/VALUE);
+                                SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
+                                if (i < COLORS.length) {
+                                    renderer.setColor(COLORS[i]);// 设置描绘器的颜色
+                                } else {
+                                    renderer.setColor(getRandomColor());// 设置描绘器的颜色
+                                }
+                                renderer.setChartValuesFormat(NumberFormat.getPercentInstance());// 设置百分比
+                                mRenderer.setChartTitleTextSize(44);// 设置饼图标题大小
+                                mRenderer.addSeriesRenderer(renderer);// 将最新的描绘器添加到DefaultRenderer中
+                            }
+                            break;
+                        case 10:
+                            if (transport > 0)
+                            {
+                                mSeries.add("others",others/VALUE);
+                                SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
+                                if (i < COLORS.length) {
+                                    renderer.setColor(COLORS[i]);// 设置描绘器的颜色
+                                } else {
+                                    renderer.setColor(getRandomColor());// 设置描绘器的颜色
+                                }
+                                renderer.setChartValuesFormat(NumberFormat.getPercentInstance());// 设置百分比
+                                mRenderer.setChartTitleTextSize(44);// 设置饼图标题大小
+                                mRenderer.addSeriesRenderer(renderer);// 将最新的描绘器添加到DefaultRenderer中
+                            }
+                            break;
+                        case 11:
+                            if(clothing >0)
+                            {
+                                mSeries.add("clothing",clothing/VALUE);
+                                SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
+                                if (i < COLORS.length) {
+                                    renderer.setColor(COLORS[i]);// 设置描绘器的颜色
+                                } else {
+                                    renderer.setColor(getRandomColor());// 设置描绘器的颜色
+                                }
+                                renderer.setChartValuesFormat(NumberFormat.getPercentInstance());// 设置百分比
+                                mRenderer.setChartTitleTextSize(44);// 设置饼图标题大小
+                                mRenderer.addSeriesRenderer(renderer);// 将最新的描绘器添加到DefaultRenderer中
+                            }
+                            break;
                     }
-                });
-                mLinear.addView(mChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-            } else {
-                mChartView.repaint();
+//                    SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
+//                    if (i < COLORS.length) {
+//                        renderer.setColor(COLORS[i]);// 设置描绘器的颜色
+//                    } else {
+//                        renderer.setColor(getRandomColor());// 设置描绘器的颜色
+//                    }
+//                    renderer.setChartValuesFormat(NumberFormat.getPercentInstance());// 设置百分比
+//                    mRenderer.setChartTitleTextSize(44);// 设置饼图标题大小
+//                    mRenderer.addSeriesRenderer(renderer);// 将最新的描绘器添加到DefaultRenderer中
+                }
+                if (mChartView == null) {// 为空需要从ChartFactory获取PieChartView
+                    mChartView = ChartFactory.getPieChartView(getApplicationContext(),
+                            mSeries, mRenderer);// 构建mChartView
+                    mRenderer.setClickEnabled(true);// 允许点击事件
+                    mChartView.setOnClickListener(new View.OnClickListener() {// 具体内容
+                        @Override
+                        public void onClick(View v) {
+                            SeriesSelection seriesSelection = mChartView
+                                    .getCurrentSeriesAndPoint();// 获取当前的类别和指针
+                            if (seriesSelection == null) {
+                                Toast.makeText(getApplicationContext(),
+                                        "您未选择数据", Toast.LENGTH_SHORT).show();
+                            } else {
+
+
+                                for (int i = 0; i < mSeries.getItemCount(); i++) {
+                                    mRenderer.getSeriesRendererAt(i).setHighlighted(i == seriesSelection.getPointIndex());
+                                }
+                                mChartView.repaint();
+
+                                switch (seriesSelection.getPointIndex()){
+                                    case 0:
+                                        Toast.makeText(getApplicationContext(), "Your chosen is food \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 1:
+                                        Toast.makeText(getApplicationContext(), "Your chosen is shopping \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 2:
+                                        Toast.makeText(getApplicationContext(), "Your chosen is pets \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 3:
+                                        Toast.makeText(getApplicationContext(), "Your chosen is commodity \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 4:
+                                        Toast.makeText(getApplicationContext(), "Your chosen is traveling \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 5:
+                                        Toast.makeText(getApplicationContext(), "Your chosen is medical \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 6:
+                                        Toast.makeText(getApplicationContext(), "Your chosen is study \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 7:
+                                        Toast.makeText(getApplicationContext(), "Your chosen is entertainment \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 8:
+                                        Toast.makeText(getApplicationContext(), "Your chosen is housing \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 9:
+                                        Toast.makeText(getApplicationContext(), "Your chosen is transport \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 10:
+                                        Toast.makeText(getApplicationContext(), "Your chosen is others \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 11:
+                                        Toast.makeText(getApplicationContext(), "Your chosen is clothing \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
+                                        break;
+
+                                }
+                                //Toast.makeText(getApplicationContext(), "Your chosen is" + (seriesSelection.getPointIndex() + 1) + " 项 \n" + NumberFormat.getPercentInstance().format(seriesSelection.getValue()), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    mLinear.addView(mChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+                } else {
+                    mChartView.repaint();
+                }
+
             }
+            else txt.setText("No Data!");
+
+
 //
         }
 
